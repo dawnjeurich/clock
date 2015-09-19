@@ -25,7 +25,7 @@ int ibutton = 0;
 unsigned long lastRead = 0;
 BUTTONS readButton () {
   unsigned long now = millis();
-  if (now - lastRead < 500) return NONE; // debounce
+  if (now - lastRead < 250) return NONE; // debounce
   lastRead = now;
   ibutton = analogRead(0);
   if (ibutton > 1000) return NONE;
@@ -38,18 +38,13 @@ BUTTONS readButton () {
 }
 
 void loop() {
-  time = (millis() / 1000 + offset) % (60 * 60 * 24);
+  time = millis() / 1000 + offset;
   seconds = time % 60;
   minutes = time / 60 % 60;
   hours = time / 60 / 60 % 24;
   sprintf(str, "%02d:%02d:%02d", hours, minutes, seconds);
   lcd.setCursor(0,0);
   lcd.print(str);
-  lcd.setCursor(0,1);
-  char ostr[8];
-  itoa(offset, ostr, 10);
-  lcd.print(ostr);
-  lcd.print("      ");
 
   button = readButton();
   if (button == LEFT) {
