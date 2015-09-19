@@ -1,5 +1,3 @@
-// blink pin 13
-
 #include <LiquidCrystal.h>
 
 LiquidCrystal lcd(8, 9, 4, 5, 6, 7);
