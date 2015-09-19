@@ -14,20 +14,19 @@ void setup() {
 }
 
 enum BUTTONS {
-  NONE = 0,
-  UP = 1,
-  DOWN = 2,
-  LEFT = 3,
-  RIGHT = 4,
-  SELECT = 5,
-  RESET = 6
+  NONE = 0, UP = 1, DOWN = 2,
+  LEFT = 3, RIGHT = 4, SELECT = 5, RESET = 6
 };
 
 BUTTONS button;
 byte selected = 0;
 
 int ibutton = 0;
+unsigned long lastRead = 0;
 BUTTONS readButton () {
+  unsigned long now = millis();
+  if (now - lastRead < 500) return NONE; // debounce
+  lastRead = now;
   ibutton = analogRead(0);
   if (ibutton > 1000) return NONE;
   if (ibutton < 50) return RIGHT;
